@@ -1,0 +1,9 @@
+{
+  "nodes": [
+    {
+      "name": "graphlink-tokyo",
+      "host": "92.243.26.96",
+      "rpcPort": 8545
+    }
+  ]
+}
