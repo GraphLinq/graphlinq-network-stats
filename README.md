@@ -1,1 +1,1 @@
-# Graphqlink Network Stats
+# Graphlinq Network Stats
