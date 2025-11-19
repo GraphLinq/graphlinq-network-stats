@@ -3,165 +3,268 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>GraphLink Network Status</title>
-    <meta name="theme-color" content="#3B82F6" />
-    <meta name="description" content="Modern GraphLink network monitoring dashboard" />
+    <title>GraphLinq Network Monitor</title>
+    <meta name="theme-color" content="#00E5FF" />
+    <meta name="description" content="Real-time blockchain network analytics and monitoring dashboard" />
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
     <link rel="stylesheet" href="/styles.css" />
     <link rel="icon" href="/favicon.png" />
   </head>
   <body>
-    <header class="site-header">
-      <div class="inner">
-        <div class="brand">
-          <img class="logo" src="/logo.png" width="24" height="24" alt="Logo GraphLink" />
-          <h1>GraphLink Network</h1>
+    <!-- Top Navigation Bar -->
+    <nav class="topbar">
+      <div class="topbar-content">
+        <div class="brand-section">
+          <div class="logo-wrapper">
+            <img class="logo" src="/logo.svg" width="36" height="36" alt="GraphLinq Logo" />
+          </div>
+          <div class="brand-text">
+            <h1 class="brand-title">
+            <img class="logo2" src="/logo2.svg" alt="GraphLinq Logo" />
+            </h1>
+            <span class="brand-subtitle">Network Monitor</span>
+          </div>
         </div>
-        <div class="status">
-          <span id="conn" class="badge">Connecting…</span>
-          <button id="theme-toggle" class="btn btn-ghost" type="button" title="Toggle theme">
+        
+        <div class="topbar-actions">
+          <div class="connection-status">
+            <div class="status-indicator"></div>
+            <span id="conn" class="status-text">Connecting</span>
+          </div>
+          <button id="theme-toggle" class="icon-btn" type="button" title="Toggle theme" aria-label="Toggle theme">
             <i class="fas fa-sun" id="theme-icon"></i>
           </button>
-          <button id="toggle-dev" class="btn btn-outline" type="button">Show tools</button>
+          <button id="toggle-dev" class="btn-primary" type="button">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+          </button>
         </div>
       </div>
-    </header>
+    </nav>
 
-    <main class="container">
-      <section class="panel panel--manage hidden" id="panel-manage">
-        <h2>Manage Nodes</h2>
-        <form id="sub-form" class="sub-form">
-          <div class="row">
-            <label>
-              <span>Name</span>
-              <input id="f-name" placeholder="e.g. paris-01" />
-            </label>
-            <label>
-              <span>Host (or IP)</span>
-              <input id="f-host" placeholder="e.g. 127.0.0.1" />
-            </label>
-            <label>
-              <span>WebSocket URL (optional)</span>
-              <input id="f-wsurl" placeholder="e.g. ws://host:8546" />
-            </label>
-          </div>
-          <div class="row">
-            <label>
-              <span>RPC Port</span>
-              <input id="f-rpc" type="number" min="1" max="65535" value="8545" />
-            </label>
-            <label>
-              <span>WS RPC Port</span>
-              <input id="f-ws" type="number" min="1" max="65535" value="8546" />
-            </label>
-            <div class="actions">
-              <button class="btn" type="submit">Subscribe</button>
-              <button class="btn btn-outline" id="btn-unsub" type="button">Unsubscribe</button>
-              <div id="sub-msg" class="sub-msg"></div>
-            </div>
-          </div>
-        </form>
-        <p class="hint">Provide either host + ports or the full WS URL.</p>
-      </section>
-
-      <section class="panel panel--stats">
-        <div class="panel-title">
-          <h2>Network</h2>
+    <!-- Main Dashboard Layout -->
+    <div class="dashboard-wrapper">
+      <!-- Settings Panel (hidden by default) -->
+      <aside class="settings-panel hidden" id="panel-manage">
+        <div class="settings-header">
+          <h2 class="settings-title">
+            <i class="fas fa-sliders-h"></i>
+            Node Management
+          </h2>
         </div>
-        <div class="stats" id="net-stats">
-          <div class="stat-holder big-info">
-            <div class="icon-full-width" aria-hidden="true">
-              <i class="fa-solid fa-cube" aria-hidden="true"></i>
-            </div>
-            <div class="big-details-holder">
-              <span class="small-title">Best block</span>
-              <span class="big-details" id="stat-best-block">—</span>
-            </div>
-          </div>
-          <div class="stat-holder big-info">
-            <div class="icon-full-width" aria-hidden="true">
-              <i class="fa-solid fa-wave-square" aria-hidden="true"></i>
-            </div>
-            <div class="big-details-holder">
-              <span class="small-title">Avg block time</span>
-              <span class="big-details" id="stat-avg-block-time">—</span>
-            </div>
-          </div>
-          <div class="stat-holder big-info">
-            <div class="icon-full-width" aria-hidden="true">
-              <i class="fa-solid fa-gas-pump" aria-hidden="true"></i>
-            </div>
-            <div class="big-details-holder">
-              <span class="small-title">Gas price</span>
-              <span class="big-details" id="stat-gas-price">—</span>
-            </div>
-          </div>
-          <div class="stat-holder big-info">
-            <div class="icon-full-width" aria-hidden="true">
-              <i class="fa-solid fa-signal" aria-hidden="true"></i>
-            </div>
-            <div class="big-details-holder">
-              <span class="small-title">Gas limit</span>
-              <span class="big-details" id="stat-gas-limit">—</span>
-            </div>
-          </div>
-          <div class="stat-holder big-info">
-            <div class="icon-full-width" aria-hidden="true">
-              <i class="fa-solid fa-network-wired" aria-hidden="true"></i>
-            </div>
-            <div class="big-details-holder">
-              <span class="small-title">Active nodes</span>
-              <span class="big-details" id="stat-nodes">—</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="panel panel--charts">
-        <div class="panel-title">
-          <h2>Charts</h2>
-        </div>
-        <div class="charts">
-          <div class="chart">
-            <div class="chart-head"><span>Block time</span><span id="chart-bt-label" class="chip">—</span></div>
-            <div class="chart-container">
-              <canvas id="chart-bt"></canvas>
-            </div>
-          </div>
-          <div class="chart">
-            <div class="chart-head"><span>Transactions</span><span id="chart-tx-label" class="chip">—</span></div>
-            <div class="chart-container">
-              <canvas id="chart-tx"></canvas>
-            </div>
-          </div>
-          <div class="chart">
-            <div class="chart-head"><span>Gas spending</span><span id="chart-gs-label" class="chip">—</span></div>
-            <div class="chart-container">
-              <canvas id="chart-gs"></canvas>
+        
+        <form id="sub-form" class="settings-form">
+          <div class="form-section">
+            <h3 class="form-section-title">Node Configuration</h3>
+            
+            <div class="form-grid">
+              <div class="form-field">
+                <label for="f-name">
+                  <i class="fas fa-tag"></i>
+                  <span>Node Name</span>
+                </label>
+                <input id="f-name" type="text" placeholder="e.g. mainnet-us-01" />
+              </div>
+              
+              <div class="form-field">
+                <label for="f-host">
+                  <i class="fas fa-server"></i>
+                  <span>Host Address</span>
+                </label>
+                <input id="f-host" type="text" placeholder="e.g. 192.168.1.100" />
+              </div>
+              
+              <div class="form-field form-field-wide">
+                <label for="f-wsurl">
+                  <i class="fas fa-link"></i>
+                  <span>WebSocket URL (Optional)</span>
+                </label>
+                <input id="f-wsurl" type="text" placeholder="ws://host:8546" />
+              </div>
+              
+              <div class="form-field">
+                <label for="f-rpc">
+                  <i class="fas fa-network-wired"></i>
+                  <span>RPC Port</span>
+                </label>
+                <input id="f-rpc" type="number" min="1" max="65535" value="8545" />
+              </div>
+              
+              <div class="form-field">
+                <label for="f-ws">
+                  <i class="fas fa-plug"></i>
+                  <span>WebSocket Port</span>
+                </label>
+                <input id="f-ws" type="number" min="1" max="65535" value="8546" />
+              </div>
             </div>
           </div>
           
+          <div class="form-actions">
+            <button class="btn-success" type="submit">
+              <i class="fas fa-plus-circle"></i>
+              Subscribe Node
+            </button>
+            <button class="btn-danger" id="btn-unsub" type="button">
+              <i class="fas fa-minus-circle"></i>
+              Unsubscribe
+            </button>
+          </div>
+          
+          <div id="sub-msg" class="form-message"></div>
+        </form>
+        
+        <div class="settings-hint">
+          <i class="fas fa-info-circle"></i>
+          <p>Configure nodes by providing host + ports or a complete WebSocket URL</p>
         </div>
-      </section>
+      </aside>
 
-      <section class="panel panel--nodes">
-        <div class="panel-title">
-          <h2>Nodes</h2>
-        </div>
-        <div id="nodes" class="node-list"></div>
-      </section>
-    </main>
+      <!-- Main Content Area -->
+      <main class="dashboard-main">
+        <!-- Network Overview Stats -->
+        <section class="metrics-grid">
+          <div class="section-header">
+            <h2 class="section-title">
+              <i class="fas fa-chart-line"></i>
+              Network Overview
+            </h2>
+          </div>
+          
+          <div class="metrics-container" id="net-stats">
+            <div class="metric-card">
+              <div class="metric-icon cyan">
+                <i class="fa-solid fa-cube"></i>
+              </div>
+              <div class="metric-content">
+                <span class="metric-label">Best Block</span>
+                <span class="metric-value" id="stat-best-block">—</span>
+              </div>
+            </div>
+            
+            <div class="metric-card">
+              <div class="metric-icon purple">
+                <i class="fa-solid fa-clock"></i>
+              </div>
+              <div class="metric-content">
+                <span class="metric-label">Avg Block Time</span>
+                <span class="metric-value" id="stat-avg-block-time">—</span>
+              </div>
+            </div>
+            
+            <div class="metric-card">
+              <div class="metric-icon orange">
+                <i class="fa-solid fa-gas-pump"></i>
+              </div>
+              <div class="metric-content">
+                <span class="metric-label">Gas Price</span>
+                <span class="metric-value" id="stat-gas-price">—</span>
+              </div>
+            </div>
+            
+            <div class="metric-card">
+              <div class="metric-icon green">
+                <i class="fa-solid fa-gauge-high"></i>
+              </div>
+              <div class="metric-content">
+                <span class="metric-label">Gas Limit</span>
+                <span class="metric-value" id="stat-gas-limit">—</span>
+              </div>
+            </div>
+            
+            <div class="metric-card">
+              <div class="metric-icon blue">
+                <i class="fa-solid fa-network-wired"></i>
+              </div>
+              <div class="metric-content">
+                <span class="metric-label">Active Nodes</span>
+                <span class="metric-value" id="stat-nodes">—</span>
+              </div>
+            </div>
+          </div>
+        </section>
 
-    <footer>
-      <div class="inner">
-        <small>Powered by © GraphLink</small>
+        <!-- Analytics Charts -->
+        <section class="charts-section">
+          <div class="section-header">
+            <h2 class="section-title">
+              <i class="fas fa-chart-bar"></i>
+              Analytics
+            </h2>
+          </div>
+          
+          <div class="charts-grid">
+            <div class="chart-card">
+              <div class="chart-card-header">
+                <div class="chart-title">
+                  <i class="fas fa-stopwatch"></i>
+                  <span>Block Time</span>
+                </div>
+                <span id="chart-bt-label" class="chart-badge">—</span>
+              </div>
+              <div class="chart-wrapper">
+                <canvas id="chart-bt"></canvas>
+              </div>
+            </div>
+            
+            <div class="chart-card">
+              <div class="chart-card-header">
+                <div class="chart-title">
+                  <i class="fas fa-exchange-alt"></i>
+                  <span>Transactions</span>
+                </div>
+                <span id="chart-tx-label" class="chart-badge">—</span>
+              </div>
+              <div class="chart-wrapper">
+                <canvas id="chart-tx"></canvas>
+              </div>
+            </div>
+            
+            <div class="chart-card">
+              <div class="chart-card-header">
+                <div class="chart-title">
+                  <i class="fas fa-fire"></i>
+                  <span>Gas Spending</span>
+                </div>
+                <span id="chart-gs-label" class="chart-badge">—</span>
+              </div>
+              <div class="chart-wrapper">
+                <canvas id="chart-gs"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Active Nodes Table -->
+        <section class="nodes-section">
+          <div class="section-header">
+            <h2 class="section-title">
+              <i class="fas fa-server"></i>
+              Active Nodes
+            </h2>
+          </div>
+          
+          <div class="nodes-table-wrapper">
+            <div id="nodes" class="nodes-table"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <div class="footer-content">
+        <span class="footer-text">Powered by <strong>GraphLinq</strong></span>
+        <span class="footer-divider">•</span>
+        <span class="footer-text">Real-time Network Monitoring</span>
       </div>
     </footer>
+
     <script type="module" src="/js/main.js"></script>
   </body>
-  </html>
+</html>

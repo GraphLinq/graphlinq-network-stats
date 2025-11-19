@@ -91,6 +91,12 @@ export function makeChart(canvas, formatLabel, opts = {}) {
     const barAreaH = area.h;
     const barAreaY = area.y;
 
+    // Remove loading state from parent chart card
+    const chartCard = canvas.closest('.chart-card');
+    if (chartCard) {
+      chartCard.removeAttribute('data-loading');
+    }
+
     // grid
     ctx.save();
     ctx.strokeStyle = gridColor;
@@ -113,16 +119,17 @@ export function makeChart(canvas, formatLabel, opts = {}) {
     const barW = Math.min(catW * barPct, maxBarThickness);
     const barOffset = (slot - barW) / 2;
 
-    const grd = ctx.createLinearGradient(0, barAreaY, 0, barAreaY + barAreaH);
-    grd.addColorStop(0, rgbaStr(colorRGB, 0.85));
-    grd.addColorStop(1, rgbaStr(colorRGB, 0.25));
+    // Gradient: linear-gradient(270deg, #7a1fea, #5519ee)
+    const grd = ctx.createLinearGradient(area.x + area.w, barAreaY, area.x, barAreaY);
+    grd.addColorStop(0, '#7a1fea');
+    grd.addColorStop(1, '#5519ee');
 
     ctx.save();
     ctx.shadowColor = 'rgba(0,0,0,0.06)';
     ctx.shadowBlur = 4;
     ctx.shadowOffsetY = 1;
     ctx.fillStyle = grd;
-    ctx.strokeStyle = rgbaStr(colorRGB, 0.9);
+    ctx.strokeStyle = 'rgba(122, 31, 234, 0.3)';
     for (let i = 0; i < n; i++) {
       const v = stateLocal.data[i];
       if (!(typeof v === 'number' && Number.isFinite(v))) continue;
@@ -148,7 +155,7 @@ export function makeChart(canvas, formatLabel, opts = {}) {
         const y = barAreaY + barAreaH - hVal;
         ctx.save();
         ctx.lineWidth = 2;
-        ctx.strokeStyle = rgbaStr(colorRGB, 1);
+        ctx.strokeStyle = '#7a1fea';
         roundRect(x - 1, y - 1, barW2 + 2, Math.max(hVal + 2, 6), { tl: Math.max(1, cornerRadius), tr: Math.max(1, cornerRadius), br: 0, bl: 0 });
         ctx.stroke();
         ctx.restore();
@@ -199,9 +206,9 @@ export function makeChart(canvas, formatLabel, opts = {}) {
 }
 
 export function initCharts() {
-  const chBT = makeChart(el.cBT, (v) => fmtDur(v), { color: '#2E5BFF', radius: 3, unit: '' });
-  const chTX = makeChart(el.cTX, (v) => fmtNum(v), { color: '#16A34A', radius: 3, unit: 'TXs' });
-  const chGS = makeChart(el.cGS, (v) => fmtNum(v), { color: '#EF4444', radius: 3, unit: 'gas' });
+  const chBT = makeChart(el.cBT, (v) => fmtDur(v), { color: '#00E5FF', radius: 3, unit: '' });
+  const chTX = makeChart(el.cTX, (v) => fmtNum(v), { color: '#10B981', radius: 3, unit: 'TXs' });
+  const chGS = makeChart(el.cGS, (v) => fmtNum(v), { color: '#F59E0B', radius: 3, unit: 'gas' });
   return { chBT, chTX, chGS };
 }
 
@@ -263,7 +270,6 @@ export function maybePushBlockSample(charts, bestBlock) {
   push(state.series.gs, gs);
 
   if (charts && charts.chBT) { charts.chBT.data.labels = state.labels; charts.chBT.data.datasets[0].data = state.series.bt; charts.chBT.update(); if (el.lBT) el.lBT.textContent = bt!==undefined ? fmtDur(bt) : '—'; }
-  if (charts && charts.chBP) { charts.chBP.data.labels = state.labels; charts.chBP.data.datasets[0].data = state.series.bp; charts.chBP.update(); if (el.lBP) el.lBP.textContent = bp!==undefined ? `${fmtNum(bp)} TXs` : '—'; }
   if (charts && charts.chTX) { charts.chTX.data.labels = state.labels; charts.chTX.data.datasets[0].data = state.series.tx; charts.chTX.update(); if (el.lTX) el.lTX.textContent = tx!==undefined ? `${fmtNum(tx)} TXs` : '—'; }
   if (charts && charts.chGS) { charts.chGS.data.labels = state.labels; charts.chGS.data.datasets[0].data = state.series.gs; charts.chGS.update(); if (el.lGS) el.lGS.textContent = gs!==undefined ? `${fmtNum(gs)} gas` : '—'; }
 }

@@ -6,10 +6,10 @@ import { maybePushBlockSample } from './charts.js';
 function listHeadHtml() {
   return `
     <div class="list-head">
-      <div>Name</div>
-      <div>Latest block</div>
-      <div>Latency</div>
-      <div>Status</div>
+      <div>NAME</div>
+      <div>LATEST BLOCK</div>
+      <div>LATENCY</div>
+      <div>STATUS</div>
     </div>
   `;
 }

@@ -3,8 +3,8 @@ import * as el from './elements.js';
 import { fmtNum, fmtDur, fmtEth } from './format.js';
 
 export function setHistoryLoading(on) {
-  const chartEls = [el.cBT, el.cBP, el.cTX, el.cGS]
-    .map(c => (c && c.closest) ? c.closest('.chart') : null)
+  const chartEls = [el.cBT, el.cTX, el.cGS]
+    .map(c => (c && c.closest) ? c.closest('.chart-card') : null)
     .filter(Boolean);
   chartEls.forEach(ch => {
     if (on) {
@@ -17,7 +17,7 @@ export function setHistoryLoading(on) {
       ch.removeAttribute('aria-busy');
     }
   });
-  [el.lBT, el.lBP, el.lTX, el.lGS].forEach(x => { if (!x) return; if (on) x.classList.add('skeleton'); else x.classList.remove('skeleton'); });
+  [el.lBT, el.lTX, el.lGS].forEach(x => { if (!x) return; if (on) x.classList.add('skeleton'); else x.classList.remove('skeleton'); });
 }
 
 export function resetHistoryState() {
@@ -98,7 +98,6 @@ export async function loadHistory(charts) {
     if (typeof bestFromHist === 'number') state.lastBestBlock = bestFromHist;
 
     if (charts && charts.chBT) { charts.chBT.data.labels = state.labels; charts.chBT.data.datasets[0].data = state.series.bt; charts.chBT.update(); if (el.lBT) { const v = state.series.bt[state.series.bt.length-1]; el.lBT.textContent = v!=null ? fmtDur(v) : '—'; } }
-    if (charts && charts.chBP) { charts.chBP.data.labels = state.labels; charts.chBP.data.datasets[0].data = state.series.bp; charts.chBP.update(); if (el.lBP) { const v = state.series.bp[state.series.bp.length-1]; el.lBP.textContent = v!=null ? `${fmtNum(v)} TXs` : '—'; } }
     if (charts && charts.chTX) { charts.chTX.data.labels = state.labels; charts.chTX.data.datasets[0].data = state.series.tx; charts.chTX.update(); if (el.lTX) { const v = state.series.tx[state.series.tx.length-1]; el.lTX.textContent = v!=null ? `${fmtNum(v)} TXs` : '—'; } }
     if (charts && charts.chGS) { charts.chGS.data.labels = state.labels; charts.chGS.data.datasets[0].data = state.series.gs; charts.chGS.update(); if (el.lGS) { const v = state.series.gs[state.series.gs.length-1]; el.lGS.textContent = v!=null ? `${fmtNum(v)} gas` : '—'; } }
 

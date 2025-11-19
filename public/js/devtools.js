@@ -10,7 +10,7 @@ export function setupDevtools(charts) {
 
   function setMsg(kind, text) {
     if (!el.subMsg) return;
-    el.subMsg.className = `sub-msg ${kind}`;
+    el.subMsg.className = `form-message ${kind}`;
     el.subMsg.textContent = text || '';
   }
 
@@ -68,7 +68,10 @@ export function setupDevtools(charts) {
   if (el.unsubBtn) el.unsubBtn.addEventListener('click', onUnsubscribe);
   if (el.toggleDevBtn && el.devPanel) {
     const updateDevBtn = () => {
-      el.toggleDevBtn.textContent = el.devPanel.classList.contains('hidden') ? 'Show tools' : 'Hide tools';
+      const isHidden = el.devPanel.classList.contains('hidden');
+      const icon = el.toggleDevBtn.querySelector('i');
+      const span = el.toggleDevBtn.querySelector('span');
+      if (span) span.textContent = isHidden ? 'Settings' : 'Close';
     };
     try {
       const pref = localStorage.getItem('graphlinq:showDevPanel');

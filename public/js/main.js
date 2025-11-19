@@ -21,18 +21,31 @@ const charts = initCharts();
 setupDevtools(charts);
 
 // Connection status UI
-if (el.connEl) { el.connEl.textContent = 'Connecting…'; el.connEl.className = 'badge warn'; }
+const statusEl = document.querySelector('.connection-status');
+if (el.connEl) { 
+  el.connEl.textContent = 'Connecting'; 
+  if (statusEl) statusEl.className = 'connection-status';
+}
 
 // WebSocket live updates
 connectWebSocket({
   onOpen() {
-    if (el.connEl) { el.connEl.textContent = 'Connected'; el.connEl.className = 'badge ok'; }
+    if (el.connEl) { 
+      el.connEl.textContent = 'Connected'; 
+      if (statusEl) statusEl.className = 'connection-status connected';
+    }
   },
   onClose() {
-    if (el.connEl) { el.connEl.textContent = 'Offline, reconnecting…'; el.connEl.className = 'badge warn'; }
+    if (el.connEl) { 
+      el.connEl.textContent = 'Reconnecting'; 
+      if (statusEl) statusEl.className = 'connection-status';
+    }
   },
   onError() {
-    if (el.connEl) { el.connEl.textContent = 'Connection error'; el.connEl.className = 'badge err'; }
+    if (el.connEl) { 
+      el.connEl.textContent = 'Error'; 
+      if (statusEl) statusEl.className = 'connection-status error';
+    }
   },
   onSnapshot(nodesArr) {
     state.nodes = {};
