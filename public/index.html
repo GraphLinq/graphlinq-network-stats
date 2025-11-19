@@ -36,92 +36,12 @@
             <div class="status-indicator"></div>
             <span id="conn" class="status-text">Connecting</span>
           </div>
-          <button id="toggle-dev" class="btn-primary" type="button">
-            <i class="fas fa-cog"></i>
-            <span>Settings</span>
-          </button>
         </div>
       </div>
     </nav>
 
     <!-- Main Dashboard Layout -->
     <div class="dashboard-wrapper">
-      <!-- Settings Panel (hidden by default) -->
-      <aside class="settings-panel hidden" id="panel-manage">
-        <div class="settings-header">
-          <h2 class="settings-title">
-            <i class="fas fa-sliders-h"></i>
-            Node Management
-          </h2>
-        </div>
-        
-        <form id="sub-form" class="settings-form">
-          <div class="form-section">
-            <h3 class="form-section-title">Node Configuration</h3>
-            
-            <div class="form-grid">
-              <div class="form-field">
-                <label for="f-name">
-                  <i class="fas fa-tag"></i>
-                  <span>Node Name</span>
-                </label>
-                <input id="f-name" type="text" placeholder="e.g. mainnet-us-01" />
-              </div>
-              
-              <div class="form-field">
-                <label for="f-host">
-                  <i class="fas fa-server"></i>
-                  <span>Host Address</span>
-                </label>
-                <input id="f-host" type="text" placeholder="e.g. 192.168.1.100" />
-              </div>
-              
-              <div class="form-field form-field-wide">
-                <label for="f-wsurl">
-                  <i class="fas fa-link"></i>
-                  <span>WebSocket URL (Optional)</span>
-                </label>
-                <input id="f-wsurl" type="text" placeholder="ws://host:8546" />
-              </div>
-              
-              <div class="form-field">
-                <label for="f-rpc">
-                  <i class="fas fa-network-wired"></i>
-                  <span>RPC Port</span>
-                </label>
-                <input id="f-rpc" type="number" min="1" max="65535" value="8545" />
-              </div>
-              
-              <div class="form-field">
-                <label for="f-ws">
-                  <i class="fas fa-plug"></i>
-                  <span>WebSocket Port</span>
-                </label>
-                <input id="f-ws" type="number" min="1" max="65535" value="8546" />
-              </div>
-            </div>
-          </div>
-          
-          <div class="form-actions">
-            <button class="btn-success" type="submit">
-              <i class="fas fa-plus-circle"></i>
-              Subscribe Node
-            </button>
-            <button class="btn-danger" id="btn-unsub" type="button">
-              <i class="fas fa-minus-circle"></i>
-              Unsubscribe
-            </button>
-          </div>
-          
-          <div id="sub-msg" class="form-message"></div>
-        </form>
-        
-        <div class="settings-hint">
-          <i class="fas fa-info-circle"></i>
-          <p>Configure nodes by providing host + ports or a complete WebSocket URL</p>
-        </div>
-      </aside>
-
       <!-- Main Content Area -->
       <main class="dashboard-main">
         <!-- Network Overview Stats -->

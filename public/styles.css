@@ -164,7 +164,7 @@ html {
 
 body {
   font-family: var(--font-primary);
-  background: url(/bg-lVkVDJ9y.png) no-repeat center/cover;
+  background: url(./bg-lVkVDJ9y.png) no-repeat center/cover;
   color: var(--text-primary);
   line-height: 1.6;
   min-height: 100vh;
@@ -404,43 +404,7 @@ h3 { font-size: 1.25rem; }
   padding: var(--space-xl);
 }
 
-/* Settings Panel (Sidebar) */
-.settings-panel {
-  width: 380px;
-  flex-shrink: 0;
-  background: var(--bg-glass);
-  backdrop-filter: blur(12px);
-  border: 2px solid var(--border);
-  border-radius: var(--radius-xl);
-  padding: var(--space-xl);
-  height: fit-content;
-  position: sticky;
-  top: calc(68px + var(--space-xl));
-  box-shadow: var(--shadow-lg);
-}
 
-.settings-header {
-  margin-bottom: var(--space-xl);
-}
-
-.settings-title {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-  font-size: 1.25rem;
-  color: var(--text-primary);
-}
-
-.settings-title i {
-  color: var(--accent-primary);
-}
-
-/* Settings Form */
-.settings-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-xl);
-}
 
 .form-section {
   display: flex;

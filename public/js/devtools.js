@@ -66,25 +66,6 @@ export function setupDevtools(charts) {
 
   if (el.formEl) el.formEl.addEventListener('submit', onSubscribe);
   if (el.unsubBtn) el.unsubBtn.addEventListener('click', onUnsubscribe);
-  if (el.toggleDevBtn && el.devPanel) {
-    const updateDevBtn = () => {
-      const isHidden = el.devPanel.classList.contains('hidden');
-      const icon = el.toggleDevBtn.querySelector('i');
-      const span = el.toggleDevBtn.querySelector('span');
-      if (span) span.textContent = isHidden ? 'Settings' : 'Close';
-    };
-    try {
-      const pref = localStorage.getItem('graphlinq:showDevPanel');
-      if (pref === '1') el.devPanel.classList.remove('hidden');
-      else el.devPanel.classList.add('hidden');
-    } catch {}
-    updateDevBtn();
-    el.toggleDevBtn.addEventListener('click', () => {
-      el.devPanel.classList.toggle('hidden');
-      updateDevBtn();
-      try { localStorage.setItem('graphlinq:showDevPanel', el.devPanel.classList.contains('hidden') ? '0' : '1'); } catch {}
-    });
-  }
 
   // Restore last form values
   try {
