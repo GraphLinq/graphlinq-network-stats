@@ -803,7 +803,7 @@ h3 { font-size: 1.25rem; }
 /* Table Header */
 .list-head {
   display: grid;
-  grid-template-columns: 2fr 1.5fr 1fr 1fr;
+  grid-template-columns: 2fr 1.5fr 1fr 1fr 1fr;
   gap: var(--space-md);
   padding: var(--space-lg) var(--space-xl);
   background: var(--bg-elevated);
@@ -818,7 +818,7 @@ h3 { font-size: 1.25rem; }
 /* Table Row */
 .nodes-table .row {
   display: grid;
-  grid-template-columns: 2fr 1.5fr 1fr 1fr;
+  grid-template-columns: 2fr 1.5fr 1fr 1fr 1fr;
   gap: var(--space-md);
   align-items: center;
   padding: var(--space-lg) var(--space-xl);
@@ -1092,6 +1092,34 @@ h3 { font-size: 1.25rem; }
   .nodes-table .row {
     grid-template-columns: 1fr;
     gap: var(--space-sm);
+    padding: var(--space-lg);
+  }
+  
+  /* Mobile labels for each field */
+  .nodes-table .row > div:not(.name) {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: var(--space-md);
+    align-items: center;
+  }
+  
+  .nodes-table .row > div:not(.name)::before {
+    content: attr(data-label);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+  }
+  
+  /* Name field special styling */
+  .nodes-table .name {
+    font-size: 1.125rem;
+    font-weight: 700;
+    padding-bottom: var(--space-sm);
+    margin-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--border);
+    color: var(--accent-primary);
   }
 }
 
@@ -1172,6 +1200,16 @@ h3 { font-size: 1.25rem; }
   .nodes-table .row {
     padding: var(--space-md);
   }
+  
+  /* Adjust label width for smaller screens */
+  .nodes-table .row > div:not(.name) {
+    grid-template-columns: 100px 1fr;
+    gap: var(--space-sm);
+  }
+  
+  .nodes-table .name {
+    font-size: 1rem;
+  }
 }
 
 /* Very small phones */
@@ -1182,6 +1220,16 @@ h3 { font-size: 1.25rem; }
   
   .topbar-actions {
     gap: var(--space-sm);
+  }
+  
+  /* Even smaller labels for very small phones */
+  .nodes-table .row > div:not(.name) {
+    grid-template-columns: 85px 1fr;
+    font-size: 0.875rem;
+  }
+  
+  .nodes-table .row > div:not(.name)::before {
+    font-size: 0.7rem;
   }
 }
 

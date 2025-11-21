@@ -4,6 +4,26 @@
       "name": "graphlinq-tokyo",
       "host": "92.243.26.96",
       "rpcPort": 8545
+    },
+    {
+      "name": "graphlinq-paris",
+      "host": "51.91.10.33",
+      "rpcPort": 8545
+    },
+    {
+      "name": "graphlinq-san-francisco",
+      "host": "65.109.96.163",
+      "rpcPort": 8545
+    },
+    {
+      "name": "graphlinq-new-york",
+      "host": "34.122.85.128",
+      "rpcPort": 8545
+    },
+    {
+      "name": "graphlinq-berlin",
+      "host": "159.223.243.177",
+      "rpcPort": 8545
     }
   ]
 }
